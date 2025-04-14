@@ -10,7 +10,7 @@ spec:
   type: {{ .Values.service.type }}  # Exposes the service externally
   selector:
     app: {{ .Values.pod.labelApp }}
-    env: {{ .Values.pod.labelEnv }}
+    #env: {{ .Values.pod.labelEnv }}
   ports:
     - protocol: TCP
       port: {{ .Values.service.port }}        # Service port that clients connect to
