@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "nginx.fullname" . }}
+  labels:
+    {{- include "nginx.labels" . | nindent 4 }}
+    env: {{ .Values.pod.labelEnv }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ .Values.labelsapp }}
+      
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.pod.labelApp }}
+        env: {{ .Values.pod.labelEnv }}
+        {{- include "nginx.selectorLabels" . | nindent 6 }}
+
+    spec:
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          ports:
+            - name: http
+              containerPort: {{ .Values.service.port }}
+              protocol: TCP
